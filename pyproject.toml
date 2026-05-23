@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "manus-client"
+version = "0.1.0"
+description = "CLI client for the Manus glove SDK — streams hand tracking data over ZMQ"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Maximilian Eberlein", email = "meberlein@ethz.ch"},
+    {name = "Francesco Capuano", email = "capuano@robots.ox.ac.uk"},
+]
+classifiers = [
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+]
+
+[project.scripts]
+manus-client = "manus_client.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/manus_client"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/ManusSDK",
+    "/*.cpp",
+    "/*.cc",
+    "/*.hpp",
+    "/*.h",
+    "/*.proto",
+    "/*.sh",
+    "/*.mcal",
+    "/Makefile",
+    "/hatch_build.py",
+    "/pyproject.toml",
+]
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"
