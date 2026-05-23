@@ -25,6 +25,19 @@ class CustomBuildHook(BuildHookInterface):
         root = self.root
         binary_path = os.path.join(root, "ManusClient.out")
 
+        # Check for ManusSDK shared library — required for C++ compilation.
+        # When installing from git the proprietary SDK is not available, so we
+        # skip the build and install only the Python CLI/library parts.
+        sdk_so = os.path.join(root, "ManusSDK", "lib", "libManusSDK_Integrated.so")
+        if not os.path.isfile(sdk_so) or os.path.getsize(sdk_so) < 1024:
+            self.app.display_warning(
+                "ManusSDK shared library not found — skipping C++ compilation. "
+                "The Python package will be installed without the native binary. "
+                "To compile ManusClient.out, clone the repo on a machine with "
+                "the ManusSDK and run 'make -j' manually."
+            )
+            return
+
         # ── 1. Compile ──────────────────────────────────────────────────
         self.app.display_info("Compiling ManusClient C++ binary …")
         try:
