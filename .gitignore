@@ -5,6 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
+# ... but keep ManusSDK shared libraries (needed for pip install from git)
+!ManusSDK/lib/
+!ManusSDK/lib/*.so
 
 # Distribution / packaging
 .Python
@@ -14,8 +17,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
